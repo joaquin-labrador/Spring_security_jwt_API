@@ -24,9 +24,17 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJwt(token).getBody(); //Parse the token and return the body
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody(); //Parse the token and return the body
+        //parseClaimsJws expects a token with signature, parseClaimsJwt expects a token without signature
     }
 
+    /*
+     * */
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); //Decode the secret key from base64 to bytes array
         return Keys.hmacShaKeyFor(keyBytes); //Return the key to sign the token
