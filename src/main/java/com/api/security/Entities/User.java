@@ -23,15 +23,15 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "first_name", length = 50, nullable = false)
-    private String firstName;
-    @Column(name = "last_name", length = 50, nullable = false)
-    private String lastName;
-    @Column(name = "email", length = 50, nullable = false, unique = true)
+    @Column(name = "first_name", nullable = false)
+    private String firstname;
+    @Column(name = "last_name", nullable = false)
+    private String lastname;
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "password", length = 50, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "role", length = 10, nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
