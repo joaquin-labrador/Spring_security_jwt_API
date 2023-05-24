@@ -26,7 +26,12 @@ public class AuthService {
     public AuthenticationResponse register(UserRegisterRequest userRegisterRequest) {
         try {
             //builder pattern
-            User user = User.builder().email(userRegisterRequest.getEmail()).password(passwordEncoder.encode(userRegisterRequest.getPassword())).role(UserRole.USER).firstName(userRegisterRequest.getFirstname()).lastName(userRegisterRequest.getLastname()).build();
+            User user = User.builder()
+                    .email(userRegisterRequest.getEmail())
+                    .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
+                    .role(UserRole.USER)
+                    .firstname(userRegisterRequest.getFirstname())
+                    .lastname(userRegisterRequest.getLastname()).build();
             userRepository.save(user);
             //generate JWT
             String token = jwtService.generateToken(user);
