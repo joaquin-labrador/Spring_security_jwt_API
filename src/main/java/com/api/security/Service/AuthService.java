@@ -1,5 +1,6 @@
-package com.api.security.Config;
+package com.api.security.Service;
 
+import com.api.security.Config.JwtService;
 import com.api.security.DTO.AuthenticationResponse;
 import com.api.security.DTO.UserAuthRequest;
 import com.api.security.DTO.UserRegisterRequest;

@@ -3,7 +3,7 @@ package com.api.security.Controller;
 import com.api.security.DTO.AuthenticationResponse;
 import com.api.security.DTO.UserAuthRequest;
 import com.api.security.DTO.UserRegisterRequest;
-import com.api.security.Config.AuthService;
+import com.api.security.Service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
