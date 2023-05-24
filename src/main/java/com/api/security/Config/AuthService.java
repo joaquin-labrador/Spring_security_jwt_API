@@ -1,4 +1,4 @@
-package com.api.security.Service;
+package com.api.security.Config;
 
 import com.api.security.DTO.AuthenticationResponse;
 import com.api.security.DTO.UserAuthRequest;

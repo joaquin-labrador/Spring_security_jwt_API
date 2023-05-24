@@ -1,8 +1,6 @@
 package com.api.security.Config;
 
 import com.api.security.Entities.User;
-import com.api.security.Service.JwtService;
-import com.api.security.Service.UserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

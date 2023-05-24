@@ -2,7 +2,6 @@ package com.api.security.Config;
 
 import com.api.security.Entities.User;
 import com.api.security.Repositories.UserRepository;
-import com.api.security.Service.UserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
