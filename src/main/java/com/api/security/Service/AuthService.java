@@ -6,6 +6,7 @@ import com.api.security.DTO.UserAuthRequest;
 import com.api.security.DTO.UserRegisterRequest;
 import com.api.security.Entities.User;
 import com.api.security.Entities.UserRole;
+import com.api.security.Exceptions.BadCredentials;
 import com.api.security.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -51,10 +51,12 @@ public class AuthService {
             //the AuthenticationProvider use the UserDetailsService to find the user and set in the provider and set the passwordEncoder it´s a BCryptPasswordEncoder
             //that is the reason why authenticate can compare the password of the user with the password in the database, a lot of beans are used to do this.
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userRegisterRequest.getEmail(), userRegisterRequest.getPassword()));
-            User user = userRepository.findByEmail(userRegisterRequest.getEmail()).orElseThrow(() -> new Exception("User not found"));
+            User user = userRepository.findByEmail(userRegisterRequest.getEmail()).orElse(null);
             String token = jwtService.generateToken(user);
             return AuthenticationResponse.builder().token(token).build();
 
+        } catch (RuntimeException e) {
+            throw new BadCredentials("Bad credentials");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
