@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ExceptionsAdvice {
     @ExceptionHandler(BadCredentials.class)
     public ResponseEntity<ApiErrorResponse> handleBadCredentials(BadCredentials ex) {
-        ApiErrorResponse response = ApiErrorResponse.builder().message(ex.getMessage()).status(401).timestamp(LocalDateTime.now()).build();
+        ApiErrorResponse response = ApiErrorResponse.builder().message(ex.getMessage()) .status(401).timestamp(LocalDateTime.now()).build();
         return ResponseEntity.status(401).body(response);
     }
 
