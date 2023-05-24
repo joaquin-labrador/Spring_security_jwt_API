@@ -23,18 +23,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     /*
-     * @params HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
+     * @params HttpServletRequest request, HttpServletResponse response, FilterChain
      * @throws ServletException, IOException
      * This method is called by the doFilter method in the SecurityFilterChain
      * This method is used to extract the jwt token from the request header and authenticate the user
      * */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+
+        if (request.getServletPath().contains("/api/v1/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String authorizationHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        //verify that the authorization header is not null and starts with "Bearer "
-        if (authorizationHeader == null || authorizationHeader.startsWith("Bearer ")) {
+        //verify that the authorization header is not null and authorization header not starts with "Bearer "
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); //Continue the filter chain, similar to next() in express
             return;
         }
