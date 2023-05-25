@@ -25,9 +25,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(UserRegisterRequest userRegisterRequest) {
-        if (!isValidEmail(userRegisterRequest.getEmail())) {
-            throw new BadCredentials("Invalid email");
-        }
+
         try {
             //builder pattern
             User user = User.builder().email(userRegisterRequest.getEmail()).password(passwordEncoder.encode(userRegisterRequest.getPassword())).role(UserRole.USER).firstname(userRegisterRequest.getFirstname()).lastname(userRegisterRequest.getLastname()).build();
@@ -60,8 +58,13 @@ public class AuthService {
         }
     }
 
-    public boolean isValidEmail(String email) {
+    public void isValidEmail(String email) {
         String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
-        return email.matches(emailRegex);
+        if (!email.matches(emailRegex)) {
+            System.out.println("Invalid email");
+            throw new BadCredentials("Invalid email");
+        }
+
+
     }
 }
