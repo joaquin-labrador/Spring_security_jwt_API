@@ -1,8 +1,5 @@
 package com.api.security.Exceptions;
 
-import com.api.security.Exceptions.ApiErrorResponse;
-import com.api.security.Exceptions.BadCredentials;
-import com.api.security.Exceptions.InternalServerError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
