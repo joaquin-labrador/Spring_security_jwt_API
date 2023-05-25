@@ -7,6 +7,7 @@ import com.api.security.DTO.UserRegisterRequest;
 import com.api.security.Entities.User;
 import com.api.security.Entities.UserRole;
 import com.api.security.Exceptions.BadCredentials;
+import com.api.security.Exceptions.InternalServerError;
 import com.api.security.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,22 +25,19 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(UserRegisterRequest userRegisterRequest) {
+        if (!isValidEmail(userRegisterRequest.getEmail())) {
+            throw new BadCredentials("Invalid email");
+        }
         try {
             //builder pattern
-            User user = User.builder()
-                    .email(userRegisterRequest.getEmail())
-                    .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
-                    .role(UserRole.USER)
-                    .firstname(userRegisterRequest.getFirstname())
-                    .lastname(userRegisterRequest.getLastname()).build();
+            User user = User.builder().email(userRegisterRequest.getEmail()).password(passwordEncoder.encode(userRegisterRequest.getPassword())).role(UserRole.USER).firstname(userRegisterRequest.getFirstname()).lastname(userRegisterRequest.getLastname()).build();
             userRepository.save(user);
             //generate JWT
             String token = jwtService.generateToken(user);
             return AuthenticationResponse.builder().token(token).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new InternalServerError(e.getMessage());
         }
 
     }
@@ -58,8 +56,12 @@ public class AuthService {
         } catch (RuntimeException e) {
             throw new BadCredentials("Bad credentials");
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new InternalServerError(e.getMessage());
         }
+    }
+
+    public boolean isValidEmail(String email) {
+        String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
+        return email.matches(emailRegex);
     }
 }
